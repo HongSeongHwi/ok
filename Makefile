@@ -1,7 +1,7 @@
 C = g++
-CFLAGS = -O2
-TARGET = main.out
-OBJS = 
+CFLAGS = -O2 -lncurses -ltinfo -lstdc++
+TARGET = test.out
+OBJS = input.o
 
 $(TARGET) : $(OBJS)
 		$(CC) $(CFLAGS) -o $@ $^

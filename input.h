@@ -2,7 +2,6 @@
 #define _input_h_
 
 #include <iostream>
-//#include <ncurses.h>
 #include <termio.h>
 
 int _getch(void) 
