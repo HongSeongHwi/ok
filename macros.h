@@ -1,5 +1,5 @@
-#ifndef _macros_h
-#define _macros_h
+#ifndef _macros_h_
+#define _macros_h_
 
 #define MAP_WIDTH 20
 #define MAP_HEIGHT 20
@@ -25,6 +25,6 @@
 
 #define INITIAL_SNAKE_LENGTH 3
 
-#define PAUSE_LENGTH 100
+#define PAUSE_LENGTH 1
 
 #endif
