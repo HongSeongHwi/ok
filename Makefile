@@ -1,7 +1,7 @@
 C = g++
-CFLAGS = -O2
+CFLAGS = -O2 -lncurses
 TARGET = main.out
-OBJS = 
+OBJS = snake.o map.o 
 
 $(TARGET) : $(OBJS)
 		$(CC) $(CFLAGS) -o $@ $^
