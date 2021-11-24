@@ -119,6 +119,7 @@ void Snake::Snake_Movement(){
             pair<int, int> tail = snake_parts.front();
             snake_exist_array[tail.first][tail.second]--;
             snake_parts.erase(snake_parts.begin());
+            length--;
         }
 
         int head_value = snake_exist_array[snake_head.first][snake_head.second]+1;
