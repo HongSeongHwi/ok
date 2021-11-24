@@ -1,5 +1,5 @@
-#ifndef _snake_h
-#define _snake_h
+#ifndef _snake_h_
+#define _snake_h_
 
 #include "input.h"
 #include <vector>
