@@ -10,7 +10,8 @@ class SnakeMap
     public:
          SnakeMap(Snake *snake);
          ~SnakeMap();
-         void Update_Snake_Food(bool initial_update);
+         void Update_Snake_Food(int frame);
+         void Update_Snake_Garbage(int frame);
          pair<int, int> Get_Food() {return snake_food;}
          void Update_Snake_Head(int frame);
          void Update_Snake_Body();
@@ -19,10 +20,10 @@ class SnakeMap
          void Render_Map(int frame);
 
     private:
-         char map_array[MAP_HEIGHT][MAP_WIDTH];
+         char map_[MAP_HEIGHT][MAP_WIDTH];
          Snake *snake;
-         bool mouth_change;
          pair<int, int> snake_food;
+         pair<int, int> snake_garbage;
 };
 
 

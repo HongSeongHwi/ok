@@ -6,11 +6,33 @@
 #include "snake_map.h"
 #include "inoutro.h"
 #include "macros.h"
+#include "ranking.h"
 #include <iostream>
 
 void operator delete(void * p, std::size_t) // or delete(void *, std::size_t)
 {
     std::free(p); 
+}
+
+// ==============================
+// Game Metadata
+class Game
+{
+    public:
+        Game();
+        int Get_Status()            {return status;}
+        int Get_Level()             {return level;}
+        void Set_Status(int data_)  {status = data_;}
+        void Set_Level(int data_)   {level = data_;}
+    private:
+        int status;
+        int level;
+};
+
+Game::Game()
+{
+    status = GAME_INTRO;
+    level = GAME_EASY;
 }
 
 // ==============================
@@ -20,25 +42,35 @@ bool        game_start_flag = true;
 int         frame = 0;
 int         intro_sel = MENU_START;
 int         outro_sel = MENU_START;
-int         Game_Status = GAME_INTRO;
 Snake       *snake;
 SnakeMap    *snake_map;
 Intro       *intro;
 Outro       *outro;
+Ranking     ranking;
+Game        game;
 
 // ==============================
+
 
 void Update()
 {
     clear();
-    switch(Game_Status)
+    switch(game.Get_Status())
     {
         case GAME_INTRO:
             intro_sel = intro->Select();
-            if(intro_sel == MENU_START)      Game_Status = GAME_START;
-            else if(intro_sel == MENU_RANK)  Game_Status = GAME_RANK;
-            else if(intro_sel == MENU_QUIT)  Game_Status = GAME_QUIT;
-            else                             Game_Status = GAME_INTRO;
+            if(intro_sel == MENU_EASY)
+            {
+                game.Set_Status(GAME_START);
+                game.Set_Level(GAME_EASY);
+            }
+            else if(intro_sel == MENU_HARD)
+            {
+                game.Set_Status(GAME_START);
+                game.Set_Level(GAME_HARD);
+            }
+            else if(intro_sel == MENU_RANK)  game.Set_Status(GAME_RANK_INTRO);
+            else if(intro_sel == MENU_QUIT)  game.Set_Status(GAME_QUIT);
 
         case GAME_START:
             if(game_start_flag)
@@ -48,11 +80,12 @@ void Update()
                 snake_map = new SnakeMap(snake);
                 game_start_flag = false;
             }
-            if(snake->Check_Dead())
+            if(snake->Get_Dead())
             {
                 outro = new Outro(snake->Get_Length());
-                Game_Status = GAME_OUTRO;
-                snake_map->Clear_Map();
+                game.Set_Status(GAME_OUTRO);
+                ranking.Set_Score(snake->Get_Length());
+                snake->Set_Length(INITIAL_LENGTH);
             }
             snake->Update_Snake();
             snake_map->Update_Map(frame);
@@ -62,16 +95,19 @@ void Update()
             outro_sel = outro->Select();
             if(outro_sel == MENU_START)
             {
-                Game_Status = GAME_START;
+                game.Set_Status(GAME_START);
                 game_start_flag = true;
             }
-            else if(outro_sel == MENU_RANK)  Game_Status = GAME_RANK;
-            else if(outro_sel == MENU_QUIT)  Game_Status = GAME_QUIT;
-            else                             Game_Status = GAME_OUTRO;
+            else if(outro_sel == MENU_RANK)  game.Set_Status(GAME_RANK_OUTRO);
+            else if(outro_sel == MENU_QUIT)  game.Set_Status(GAME_QUIT);
             break;
 
-        case GAME_RANK:
+        case GAME_RANK_INTRO:
+            if(ranking.Quit())  game.Set_Status(GAME_INTRO);
             break;
+
+        case GAME_RANK_OUTRO:
+            if(ranking.Quit())  game.Set_Status(GAME_OUTRO);
 
         default:
             break;
@@ -82,7 +118,7 @@ void Update()
 void Render()
 {
     clear();
-    switch(Game_Status)
+    switch(game.Get_Status())
     {
         case GAME_INTRO:
             intro->Render_Inoutro(frame);
@@ -90,13 +126,22 @@ void Render()
         
         case GAME_START:
             snake_map->Render_Map(frame);
+            if(game.Get_Level() == GAME_EASY)
+                printw("GAME LEVEL = EASY");
+            if(game.Get_Level() == GAME_HARD)
+                printw("GAME LEVEL = HARD");
             break;
 
         case GAME_OUTRO:
             outro->Render_Inoutro(frame);
             break;
 
-        case GAME_RANK:
+        case GAME_RANK_INTRO:
+            ranking.Render_Ranking();
+            break;
+
+        case GAME_RANK_OUTRO:
+            ranking.Render_Ranking();
             break;
 
         default:
@@ -110,11 +155,12 @@ int main()
     initscr();
     noecho();
     intro = new Intro();
-    for(frame = 0; Game_Status != GAME_QUIT; frame++)
+    for(frame = 0; game.Get_Status() != GAME_QUIT; frame++)
     {
         Update();
         Render();
-        usleep(FRAME_SPEED / 2);
+        if(game.Get_Level() == GAME_EASY) usleep(FRAME_SPEED / 3);
+        if(game.Get_Level() == GAME_HARD) usleep(FRAME_SPEED / (3 + snake->Get_Length() / 10));
     }
     printw("THANK YOU FOR PLAYING!!");
     refresh();

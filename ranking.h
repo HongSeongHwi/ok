@@ -5,15 +5,13 @@
 
 class Ranking
 {
-        public:
-             Ranking();
-             void Set_Score(int score) {scores.push_back(score);};
-             int Quit();
-             void Render_Ranking();
-        
-        private:
-             std::vector<int> scores;
-                                                    
+    public:
+        Ranking();
+        void Set_Score(int score) {scores.push_back(score);};
+        int Quit();
+        void Render_Ranking();
+    private:
+        std::vector<int> scores;
 };
 
 #endif

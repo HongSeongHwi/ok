@@ -1,3 +1,4 @@
+#include "macros.h"
 #include "input.h"
 #include "draw.h"
 #include <fcntl.h>
@@ -6,20 +7,20 @@ using namespace std;
 
 int _kbhit(void)
 {
-    struct termios oldt, newt;
+    struct termios old_, new_;
     int ch;
     int oldf;
 
-    tcgetattr(STDIN_FILENO, &oldt);
-    newt = oldt;
-    newt.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    tcgetattr(STDIN_FILENO, &old_);
+    new_ = old_;
+    new_.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_);
     oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
     fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
 
     ch = getchar();
 
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_);
     fcntl(STDIN_FILENO, F_SETFL, oldf);
 
     if(ch != EOF)
@@ -30,19 +31,6 @@ int _kbhit(void)
 
     return 0;
 }
-    /*struct termios old_, new_;
-    int ch;
-
-    tcgetattr(STDIN_FILENO, &old_);
-    new_ = old_;
-
-    new_.c_lflag &= ~(ICANON | ECHO);
-    tcsetattr(STDIN_FILENO, TCSANOW, &new_);
-    ch = getchar();
-    tcsetattr(STDIN_FILENO, TCSANOW, &old_);
-
-    return ch;
-}*/
 
 int _getch(void) 
 {  
@@ -64,9 +52,9 @@ int _getch(void)
     return ch;
 }
 
-enum Direction Get_Dir()
+int Get_Dir()
 {
-    enum Direction dir = Right;
+    int dir = Right;
     char _input = _getch();
 
     switch(_input)
@@ -90,7 +78,6 @@ enum Direction Get_Dir()
             dir = Else;
             break;
     }
-
     return dir;
 }
 

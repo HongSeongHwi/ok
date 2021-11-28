@@ -5,7 +5,6 @@
 
 string INTRO_MAP1[INOUTRO_HEIGHT] = 
 {
-    "                                                                              ",
     "------------------------------------------------------------------------------",
     "-                                                                            -",
     "-               SSSSSSSSS                                                    -",
@@ -38,7 +37,6 @@ string INTRO_MAP1[INOUTRO_HEIGHT] =
 
 string INTRO_MAP2[INOUTRO_HEIGHT] = 
 {
-    "                                                                              ",
     "------------------------------------------------------------------------------",
     "-                                                                            -",
     "-                 SSSSSSSSS                                                  -",
@@ -69,9 +67,73 @@ string INTRO_MAP2[INOUTRO_HEIGHT] =
     "------------------------------------------------------------------------------" 
 };
 
+string INTRO_MAP3[INOUTRO_HEIGHT] = 
+{
+    "------------------------------------------------------------------------------",
+    "-                                                                            -",
+    "-               SSSSSSSSS                                                    -",
+    "-             SSSSS(O)SSSS        NN     NN  AAAAAAAA  KK     KK  EEEEEEEE   -",
+    "-             SSSSSSSSSSS---<     NNNN   NN  AA    AA  KK  KKK    EE         -",
+    "-               SSSSSSSS          NN NN  NN  AA    AA  KKKK       EEEEEEEE   -",
+    "-              SSSSSS             NN  NN NN  AAAAAAAA  KK  KKK    EE         -",
+    "-            SSSSSS               NN   NNNN  AA    AA  KK    KK   EE         -",
+    "-          SSSSSS                 NN     NN  AA    AA  KK     KK  EEEEEEEE   -",
+    "-            SSSSSS                                                          -",
+    "-   S          SSSSSS              GGGGGGG   AAAAAAAA  MM     MM  EEEEEEEE   -",
+    "-   SS           SSSSSS           GG     GG  AA    AA  MMMM MMMM  EE         -",
+    "-   SSS        SSSSSS            GG          AA    AA  MM MMM MM  EEEEEEEE   -",
+    "-    SSS     SSSSSS              GG    GGGG  AAAAAAAA  MM  M  MM  EE         -",
+    "-     SSSSSSSSSSS                 GG      G  AA    AA  MM     MM  EE         -",
+    "-       SSSSSSS                    GGGGGGGG  AA    AA  MM     MM  EEEEEEEE   -",
+    "-                                                                            -",
+    "-                        ****************************                        -",
+    "-                        *                          *                        -",
+    "-                        *                          *                        -",
+    "-                        *           EASY           *                        -",
+    "-                        *                          *                        -",
+    "-                        *           HARD           *                        -",
+    "-                        *                          *                        -",
+    "-                        *                          *                        -",
+    "-                        ****************************                        -",
+    "-                                                                            -",
+    "------------------------------------------------------------------------------" 
+};
+
+string INTRO_MAP4[INOUTRO_HEIGHT] = 
+{
+    "------------------------------------------------------------------------------",
+    "-                                                                            -",
+    "-                 SSSSSSSSS                                                  -",
+    "-                SSSSS(O)SSSS     NN     NN  AAAAAAAA  KK     KK  EEEEEEEE   -",
+    "-                SSSSSSSSSSS---<  NNNN   NN  AA    AA  KK  KKK    EE         -",
+    "-                 SSSSSSSSS       NN NN  NN  AA    AA  KKKK       EEEEEEEE   -",
+    "-                 SSSSSS          NN  NN NN  AAAAAAAA  KK  KKK    EE         -",
+    "-                 SSSSSS          NN   NNNN  AA    AA  KK    KK   EE         -",
+    "-                SSSSSS           NN     NN  AA    AA  KK     KK  EEEEEEEE   -",
+    "-               SSSSSS                                                       -",
+    "-              SSSSSS              GGGGGGG   AAAAAAAA  MM     MM  EEEEEEEE   -",
+    "-  S          SSSSSS              GG     GG  AA    AA  MMMM MMMM  EE         -",
+    "-   SS       SSSSSS              GG          AA    AA  MM MMM MM  EEEEEEEE   -",
+    "-    SS     SSSSSS               GG    GGGG  AAAAAAAA  MM  M  MM  EE         -",
+    "-     SSSSSSSSSSS                 GG      G  AA    AA  MM     MM  EE         -",
+    "-       SSSSSSS                    GGGGGGGG  AA    AA  MM     MM  EEEEEEEE   -",
+    "-                                                                            -",
+    "-                        ****************************                        -",
+    "-                        *                          *                        -",
+    "-                        *                          *                        -",
+    "-                        *           EASY           *                        -",
+    "-                        *                          *                        -",
+    "-                        *           HARD           *                        -",
+    "-                        *                          *                        -",
+    "-                        *                          *                        -",
+    "-                        ****************************                        -",
+    "-                                                                            -",
+    "------------------------------------------------------------------------------" 
+    
+};
+
 string OUTRO_MAP[INOUTRO_HEIGHT] = 
 {
-    "                                                                              ",
     "------------------------------------------------------------------------------",
     "-                -----                                                       -",
     "-              SSSSSSSSS                                                     -",
@@ -104,12 +166,13 @@ string OUTRO_MAP[INOUTRO_HEIGHT] =
 
 Intro::Intro()
 {
-    intro_sel = 0;
+    intro_sel = MENU_START;
+    level_sel = 0;
 }
 
 Outro::Outro(int _score)
 {
-    outro_sel = 0;
+    outro_sel = MENU_START;
     score = _score;
 }
 
@@ -120,23 +183,55 @@ int Intro::Select()
     {
         int input = Else;
         Render_Inoutro(frame);
-        if(_kbhit())
+        if(_kbhit()) {
             input = Get_Dir();
-        switch(input)
+            //printw("input = %d",input);
+        }
+        if(level_sel == 0)
         {
-            case Up:
-                intro_sel--;
-                if(intro_sel < MENU_START)    intro_sel = MENU_QUIT;
-                break;
-            case Down:
-                intro_sel++;
-                if(intro_sel > MENU_QUIT)     intro_sel = MENU_START;
-                break;
-            case Space:
-                return intro_sel;
-                break;
-            default:
-                break;
+            switch(input)
+            {
+                case Up:
+                    if(intro_sel == MENU_START)     intro_sel = MENU_QUIT;
+                    else if(intro_sel == MENU_RANK) intro_sel = MENU_START;
+                    else if(intro_sel == MENU_QUIT) intro_sel = MENU_RANK;
+                    break;
+                case Down:
+                    if(intro_sel == MENU_START)     intro_sel = MENU_RANK;
+                    else if(intro_sel == MENU_RANK) intro_sel = MENU_QUIT;
+                    else if(intro_sel == MENU_QUIT) intro_sel = MENU_START;
+                    break;
+                case Space:
+                    if(intro_sel == MENU_START)
+                    {
+                        intro_sel = MENU_LEVEL;
+                        level_sel = MENU_EASY;
+                        continue;
+                    }
+                    else if(intro_sel == MENU_RANK || intro_sel == MENU_QUIT)
+                        return intro_sel;
+                default:
+                    break;   
+            }
+        }
+        if(level_sel == MENU_EASY || level_sel == MENU_HARD)
+        {
+            switch(input)
+            {
+                case Up:
+                    if(level_sel == MENU_EASY)  level_sel = MENU_HARD;
+                    else                        level_sel = MENU_EASY;
+                    break;
+                case Down:
+                    if(level_sel == MENU_EASY)  level_sel = MENU_HARD;
+                    else                        level_sel = MENU_EASY;
+                    break;
+                case Space:
+                    return level_sel;
+                    break;
+                default:
+                    break;
+            }
         }
         usleep(FRAME_SPEED / 2);
         frame++;
@@ -150,8 +245,10 @@ int Outro::Select()
     {
         int input = Else;
         Render_Inoutro(frame);
-        if(_kbhit())
+        if(_kbhit()) {
             input = Get_Dir();
+            
+        }
         switch(input)
         {
             case Up:
@@ -177,37 +274,70 @@ void Intro::Render_Inoutro(int frame)
 {
     clear();
 
-    if(frame % 2 == 0)
+    if(level_sel == 0)
     {
-        for(int i = 0; i < INOUTRO_HEIGHT; i++)
+        if(frame % 2 == 0)
         {
-            intro_map[i] = INTRO_MAP1[i];
+            for(int i = 0; i < INOUTRO_HEIGHT; i++)
+            {
+                intro_map[i] = INTRO_MAP1[i];
+            }
         }
-    }
-    else
-    {
-        for(int i = 0; i < INOUTRO_HEIGHT; i++)
+        else
         {
-            intro_map[i] = INTRO_MAP2[i];
+            for(int i = 0; i < INOUTRO_HEIGHT; i++)
+            {
+                intro_map[i] = INTRO_MAP2[i];
+            }
+        }
+        switch (intro_sel)
+        {
+            case MENU_START:
+                intro_map[19][32] = '-';
+                intro_map[19][33] = '>';
+                break;
+            case MENU_RANK:
+                intro_map[21][32] = '-';
+                intro_map[21][33] = '>';
+                break;
+            case MENU_QUIT:
+                intro_map[23][32] = '-';
+                intro_map[23][33] = '>';
+                break;
+            default:
+                break;
         }
     }
 
-    switch (intro_sel)
+    else
     {
-        case MENU_START:
-            intro_map[20][32] = '-';
-            intro_map[20][33] = '>';
-            break;
-        case MENU_RANK:
-            intro_map[22][32] = '-';
-            intro_map[22][33] = '>';
-            break;
-        case MENU_QUIT:
-            intro_map[24][32] = '-';
-            intro_map[24][33] = '>';
-            break;
-        default:
-            break;
+        if(frame % 2 == 0)
+        {
+            for(int i = 0; i < INOUTRO_HEIGHT; i++)
+            {
+                intro_map[i] = INTRO_MAP3[i];
+            }
+        }
+        else
+        {
+            for(int i = 0; i < INOUTRO_HEIGHT; i++)
+            {
+                intro_map[i] = INTRO_MAP4[i];
+            }
+        }
+        switch (level_sel)
+        {
+            case MENU_EASY:
+                intro_map[20][32] = '-';
+                intro_map[20][33] = '>';
+                break;
+            case MENU_HARD:
+                intro_map[22][32] = '-';
+                intro_map[22][33] = '>';
+                break;
+            default:
+                break;
+        }
     }
 
     for(int i = 0; i < INOUTRO_HEIGHT; i++) {
@@ -217,7 +347,8 @@ void Intro::Render_Inoutro(int frame)
         }
         printw("\n");
     }
-    //printw("frame = %d\n",frame);
+    //printw("intro_sel = %d\n",intro_sel);
+    //printw("level_sel = %d\n",level_sel);
     refresh();
 }
 
@@ -229,27 +360,27 @@ void Outro::Render_Inoutro(int frame)
     
     if(score < 10)
     {
-        outro_map[19][42] = score + '0';
+        outro_map[18][42] = score + '0';
     }
     else
     {
-        outro_map[19][42] = (score / 10) + '0';
-        outro_map[19][43] = (score % 10) + '0';
+        outro_map[18][42] = (score / 10) + '0';
+        outro_map[18][43] = (score % 10) + '0';
     }
 
     switch (outro_sel)
     {
         case MENU_START:
-            outro_map[21][32] = '-';
-            outro_map[21][33] = '>';
+            outro_map[20][32] = '-';
+            outro_map[20][33] = '>';
             break;
         case MENU_RANK:
-            outro_map[23][32] = '-';
-            outro_map[23][33] = '>';
+            outro_map[22][32] = '-';
+            outro_map[22][33] = '>';
             break;
         case MENU_QUIT:
-            outro_map[25][32] = '-';
-            outro_map[25][33] = '>';
+            outro_map[24][32] = '-';
+            outro_map[24][33] = '>';
             break;
         defualt:
             break;
