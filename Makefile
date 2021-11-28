@@ -1,7 +1,7 @@
 C = g++
 CFLAGS = -O2 -lncurses -ltinfo -lstdc++
 TARGET = test.out
-OBJS = input.o inoutro.o main.o snake.o snake_map.o
+OBJS = input.o inoutro.o main.o snake.o snake_map.o ranking.o
 
 $(TARGET) : $(OBJS)
 		$(CC) $(CFLAGS) -o $@ $^
