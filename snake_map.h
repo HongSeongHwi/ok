@@ -10,6 +10,7 @@ class SnakeMap
     public:
          SnakeMap(Snake *snake);
          ~SnakeMap();
+         void Initialize_Map(Snake *snake);
          void Update_Snake_Food(int frame);
          void Update_Snake_Garbage(int frame);
          pair<int, int> Get_Food() {return snake_food;}

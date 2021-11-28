@@ -13,6 +13,7 @@ class Snake
     public:
          Snake();
          ~Snake();
+         void Initialize_Snake();
          void Set_Direction();
          int Get_Direction() {return direction;}
          void Update_Snake();
@@ -29,6 +30,9 @@ class Snake
          pair<int, int> Get_Head() {return snake_head;}
          vector<pair<int, int>> Get_Body() {return snake_body;}
          pair<int, int> Get_Food() {return snake_food;}
+
+         int Get_Size() {return snake_body.size();}
+         //vector<pair<int, int>> Get_Body() {return snake_body;}
     private:
          int direction;
          pair<int, int> snake_head;

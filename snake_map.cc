@@ -9,14 +9,19 @@ using namespace std;
 char HEAD_ch[4] = {'v', '^', '>', '<'};
 
 SnakeMap::SnakeMap(Snake *_snake){
-    snake = _snake;
-    Clear_Map();
-    Update_Snake_Food(0);
-    Update_Snake_Garbage(0);
+    Initialize_Map(_snake);
 }
 
 SnakeMap::~SnakeMap(){
 
+}
+
+void SnakeMap::Initialize_Map(Snake *_snake)
+{
+    snake = _snake;
+    Clear_Map();
+    Update_Snake_Food(0);
+    Update_Snake_Garbage(0);
 }
 
 void SnakeMap::Clear_Map(){

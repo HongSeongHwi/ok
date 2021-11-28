@@ -5,28 +5,36 @@
 #include "snake_map.h"
 #include "macros.h"
 #include "input.h"
+#include "draw.h"
 
 using namespace std;
 
 int next_head_arr[4][2] = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
 
+
 Snake::Snake(){
+    Initialize_Snake();
+}
+
+Snake::~Snake(){
+}
+
+void Snake::Initialize_Snake()
+{
     direction = Right;
     food_flag = false;
     garbage_flag = false;
     is_dead = false;
     length = INITIAL_LENGTH;
     memset(snake_exist, 0, sizeof(snake_exist));
+    snake_body.resize(0);
     for(int i = 0; i < INITIAL_LENGTH; i++)
     {
-        pair<int, int> snake_ = make_pair(1, 1);
+        pair<int, int> snake_ = make_pair(1, 1 + i);
         snake_body.push_back(snake_);
         snake_exist[snake_.first][snake_.second]++;
     }
     snake_head = snake_body[snake_body.size() - 1];
-}
-
-Snake::~Snake(){
 }
 
 void Snake::Set_Direction(){

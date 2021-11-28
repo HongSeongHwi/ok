@@ -42,8 +42,8 @@ bool        game_start_flag = true;
 int         frame = 0;
 int         intro_sel = MENU_START;
 int         outro_sel = MENU_START;
-Snake       *snake;
-SnakeMap    *snake_map;
+Snake       snake;
+SnakeMap    snake_map(&snake);
 Intro       *intro;
 Outro       *outro;
 Ranking     ranking;
@@ -76,19 +76,18 @@ void Update()
             if(game_start_flag)
             {
                 clear();
-                snake = new Snake();
-                snake_map = new SnakeMap(snake);
                 game_start_flag = false;
             }
-            if(snake->Get_Dead())
+            if(snake.Get_Dead())
             {
-                outro = new Outro(snake->Get_Length());
+                outro = new Outro(snake.Get_Length());
                 game.Set_Status(GAME_OUTRO);
-                ranking.Set_Score(snake->Get_Length());
-                snake->Set_Length(INITIAL_LENGTH);
+                ranking.Set_Score(snake.Get_Length());
+                snake.Initialize_Snake();
+                snake_map.Initialize_Map(&snake);
             }
-            snake->Update_Snake();
-            snake_map->Update_Map(frame);
+            snake.Update_Snake();
+            snake_map.Update_Map(frame);
             break;
 
         case GAME_OUTRO:
@@ -125,12 +124,13 @@ void Render()
             break;
         
         case GAME_START:
-            snake_map->Render_Map(frame);
+            snake_map.Render_Map(frame);
             if(game.Get_Level() == GAME_EASY)
                 printw("GAME LEVEL = EASY\n");
             if(game.Get_Level() == GAME_HARD)
                 printw("GAME LEVEL = HARD\n");
             printw("*: FOOD // @: GARBAGE\n");
+            printw("MOVE WITH w, a, s, d\n");
             break;
 
         case GAME_OUTRO:
@@ -161,7 +161,7 @@ int main()
         Update();
         Render();
         if(game.Get_Level() == GAME_EASY) usleep(FRAME_SPEED / 3);
-        if(game.Get_Level() == GAME_HARD) usleep(FRAME_SPEED / (3 + snake->Get_Length() / 10));
+        if(game.Get_Level() == GAME_HARD) usleep(FRAME_SPEED / (3 + snake.Get_Length() / 10));
     }
     printw("THANK YOU FOR PLAYING!!");
     refresh();
