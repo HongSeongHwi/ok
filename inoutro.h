@@ -2,6 +2,7 @@
 #define _intro_h_
 
 #include "macros.h"
+#include <string>
 
 using namespace std;
 
@@ -10,23 +11,26 @@ class Intro
     public:
         Intro();
         ~Intro();
-        virtual void Draw_Inoutro(int sel, int frame);
-        int Select_Menu();
+        virtual void Render_Inoutro(int frame);
+        virtual int Select();
     private:
-        string intro_map[INTRO_HEIGHT];
-}
+        string intro_map[INOUTRO_HEIGHT];
+        int intro_sel;
+};
 
 class Outro : public Intro
 {
     public:
         Outro(int _score);
-        void Draw_Inoutro(int sel, int frame);
+        void Render_Inoutro(int frame);
+        int Select();
     private:
-        string outro_map[OUTRO_HEIGHT];
+        string outro_map[INOUTRO_HEIGHT];
         int score;
-}
+        int outro_sel;
+};
 
-string first_intro_map[INTRO_HEIGHT] = 
+/*string INTRO_MAP1[INTRO_HEIGHT] = 
 {
     "                                                                              ",
     "------------------------------------------------------------------------------",
@@ -57,8 +61,9 @@ string first_intro_map[INTRO_HEIGHT] =
     "-                        ****************************                        -",
     "-                                                                            -",
     "------------------------------------------------------------------------------" 
-}
-string second_intro_map[INTRO_HEIGHT] = 
+};
+
+string INTRO_MAP2[INTRO_HEIGHT] = 
 {
     "                                                                              ",
     "------------------------------------------------------------------------------",
@@ -89,9 +94,9 @@ string second_intro_map[INTRO_HEIGHT] =
     "-                        ****************************                        -",
     "-                                                                            -",
     "------------------------------------------------------------------------------" 
-}
+};
 
-string first_outro_map[OUTRO_HEIGHT] = 
+string OUTRO_MAP[OUTRO_HEIGHT] = 
 {
     "                                                                              ",
     "------------------------------------------------------------------------------",
@@ -104,24 +109,24 @@ string first_outro_map[OUTRO_HEIGHT] =
     "-     |    -- SSSSSS            GG      G  AA    AA  MM     MM  EE           -",
     "-     |  -- SSSSSS               GGGGGGGG  AA    AA  MM     MM  EEEEEEEE     -",
     "-     |--    SSSSSS                                                          -",
-    "-  S          SSSSSS              OOOOOO   VV    VV  EEEEEEEEE  RRRRRRR      -",
-    "-  SS           SSSSSS           OO    OO  VV    VV  EE         RR    RR     -",
-    "-  SSS        SSSSSS             OO    OO  VV    VV  EEEEEEEEE  RRRRRRR      -",
-    "-   SSS     SSSSSS               OO    OO  VV    VV  EE         RR  RR       -",
-    "-    SSSSSSSSSSS                 OO    OO   V    V   EE         RR   RR      -",
-    "-      SSSSSSS                    OOOOOO     VVVV    EEEEEEEEE  RR    RR     -",
+    "-  S          SSSSSS            OOOOOOOO   VV    VV  EEEEEEEEE  RRRRRRR      -",
+    "-  SS           SSSSSS         OO      OO  VV    VV  EE         RR    RR     -",
+    "-  SSS        SSSSSS           OO      OO  VV    VV  EEEEEEEEE  RRRRRRR      -",
+    "-   SSS     SSSSSS             OO      OO  VV    VV  EE         RR  RR       -",
+    "-    SSSSSSSSSSS               OO      OO   V    V   EE         RR   RR      -",
+    "-      SSSSSSS                  OOOOOOOO     VVVV    EEEEEEEEE  RR    RR     -",
     "-                                                                            -",
     "-                        ****************************                        -",
+    "-                        *        SCROE:            *                        -",
     "-                        *                          *                        -",
     "-                        *          RETRY?          *                        -",
     "-                        *                          *                        -",
     "-                        *           RANK           *                        -",
     "-                        *                          *                        -",
     "-                        *           QUIT           *                        -",
-    "-                        *                          *                        -",
     "-                        ****************************                        -",
     "-                                                                            -",
     "------------------------------------------------------------------------------"
-}
-
+};
+*/
 #endif

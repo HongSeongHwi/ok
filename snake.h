@@ -13,25 +13,28 @@ class Snake
     public:
          Snake();
          ~Snake();
-         void Update_Direction();
-         enum Direction Get_Direction();
-         vector<pair<int, int>> snake_parts;
-         pair<int, int> snake_head;
-         void Snake_Movement();
+         void Initialize_Snake();
+         void Set_Direction();
+         enum Direction Get_Direction() {return direction;}
+         void Update_Snake();
          void Set_Snake_Food(pair<int, int> snake_food);
-         bool food_eaten;
-         bool garbage_eaten;
-         bool is_dead;
-         int length;
+         bool Get_Food_Eaten() {return food_eaten;}
+         void Set_Food_Eaten(bool _fe) {food_eaten = _fe;}
+         bool Check_Dead() {return is_dead;}
+         int  Get_Length() {return length;}
+         pair<int, int> Get_Head() {return snake_head;}
+         vector<pair<int, int>> Get_Body() {return snake_body;}
+         pair<int, int> Get_Food() {return snake_food;}
     private:
          enum Direction direction;
-         enum Direction next_direction;
+         pair<int, int> snake_head;
+         vector<pair<int, int>> snake_body;
          pair<int, int> snake_food;
-         pairt<int, int> snake_garbage;
+         pair<int, int> snake_garbage;
          int snake_exist[MAP_HEIGHT][MAP_WIDTH];
-         void Clear_Snake_World();
-         void Initialize_Snake();
-                                          
+         int length;
+         bool is_dead;
+         bool food_eaten;
 };
 
 #endif

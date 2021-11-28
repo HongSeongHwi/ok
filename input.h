@@ -1,29 +1,9 @@
-#ifndef _input_h_
-#define _input_h_
+#ifndef _input_h
+#define _input_h
 
 #include <iostream>
 #include <termio.h>
-
-int _getch(void) 
-{  
-    int ch;
-
-    struct termios old_;
-    struct termios new_;
-    
-    tcgetattr(0, &old_);
-    
-    new_ = old_;
-    new_.c_lflag &= ~(ICANON|ECHO);
-    new_.c_cc[VMIN] = 1;
-    new_.c_cc[VTIME] = 0;
-
-    tcsetattr(0, TCSAFLUSH, &new_);
-    ch = getchar();
-    tcsetattr(0, TCSAFLUSH, &old_);
-
-    return ch;
-}
+#include <unistd.h>
 
 enum Direction
 {
@@ -35,6 +15,8 @@ enum Direction
     Else = -1
 };
 
+int _kbhit(void);
+int _getch(void);
 enum Direction Get_Dir(void);
 
 #endif

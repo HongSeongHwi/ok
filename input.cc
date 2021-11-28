@@ -1,8 +1,68 @@
 #include "input.h"
-
-#include <unistd.h>
+#include "draw.h"
+#include <fcntl.h>
 
 using namespace std;
+
+int _kbhit(void)
+{
+    struct termios oldt, newt;
+    int ch;
+    int oldf;
+
+    tcgetattr(STDIN_FILENO, &oldt);
+    newt = oldt;
+    newt.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &newt);
+    oldf = fcntl(STDIN_FILENO, F_GETFL, 0);
+    fcntl(STDIN_FILENO, F_SETFL, oldf | O_NONBLOCK);
+
+    ch = getchar();
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    fcntl(STDIN_FILENO, F_SETFL, oldf);
+
+    if(ch != EOF)
+    {
+        ungetc(ch, stdin);
+        return 1;
+    }
+
+    return 0;
+}
+    /*struct termios old_, new_;
+    int ch;
+
+    tcgetattr(STDIN_FILENO, &old_);
+    new_ = old_;
+
+    new_.c_lflag &= ~(ICANON | ECHO);
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_);
+    ch = getchar();
+    tcsetattr(STDIN_FILENO, TCSANOW, &old_);
+
+    return ch;
+}*/
+
+int _getch(void) 
+{  
+    int ch;
+
+    struct termios old_, new_;
+    
+    tcgetattr(0, &old_);
+    
+    new_ = old_;
+    new_.c_lflag &= ~(ICANON|ECHO);
+    new_.c_cc[VMIN] = 1;
+    new_.c_cc[VTIME] = 0;
+
+    tcsetattr(0, TCSAFLUSH, &new_);
+    ch = getchar();
+    tcsetattr(0, TCSAFLUSH, &old_);
+
+    return ch;
+}
 
 enum Direction Get_Dir()
 {
@@ -34,10 +94,7 @@ enum Direction Get_Dir()
     return dir;
 }
 
-int main() {
-
-}
-
+/*
 // for input test && print test
 int main() {
     WINDOW *game_win;
@@ -58,7 +115,7 @@ int main() {
         if(dir == Right)
         {
             //wprintw(game_win, "dir = Right");
-            mvwprintw(game_win, 1, 2, "dir = Right");
+            mvwprintw(game_win, 3, 5, "dir = Right");
         }
         else if(dir == Left)
         {
@@ -96,3 +153,4 @@ int main() {
 
     return 0;
 }
+*/
