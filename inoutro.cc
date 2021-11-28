@@ -182,7 +182,7 @@ int Intro::Select()
     while(1)
     {
         int input = Else;
-        Render_Inoutro(frame);
+        Render(frame);
         if(_kbhit()) {
             input = Get_Dir();
             //printw("input = %d",input);
@@ -244,7 +244,7 @@ int Outro::Select()
     while(1)
     {
         int input = Else;
-        Render_Inoutro(frame);
+        Render(frame);
         if(_kbhit()) {
             input = Get_Dir();
             
@@ -270,7 +270,7 @@ int Outro::Select()
 }
 
 
-void Intro::Render_Inoutro(int frame)
+void Intro::Render(int frame)
 {
     clear();
 
@@ -352,7 +352,7 @@ void Intro::Render_Inoutro(int frame)
     refresh();
 }
 
-void Outro::Render_Inoutro(int frame)
+void Outro::Render(int frame)
 {
     clear();
     for(int i = 0; i < INOUTRO_HEIGHT; i++)

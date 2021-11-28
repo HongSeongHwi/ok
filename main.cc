@@ -120,7 +120,7 @@ void Render()
     switch(game.Get_Status())
     {
         case GAME_INTRO:
-            intro->Render_Inoutro(frame);
+            intro->Render(frame);
             break;
         
         case GAME_START:
@@ -134,7 +134,7 @@ void Render()
             break;
 
         case GAME_OUTRO:
-            outro->Render_Inoutro(frame);
+            outro->Render(frame);
             break;
 
         case GAME_RANK_INTRO:
