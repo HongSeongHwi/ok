@@ -127,9 +127,10 @@ void Render()
         case GAME_START:
             snake_map->Render_Map(frame);
             if(game.Get_Level() == GAME_EASY)
-                printw("GAME LEVEL = EASY");
+                printw("GAME LEVEL = EASY\n");
             if(game.Get_Level() == GAME_HARD)
-                printw("GAME LEVEL = HARD");
+                printw("GAME LEVEL = HARD\n");
+            printw("*: FOOD // @: GARBAGE\n");
             break;
 
         case GAME_OUTRO:
