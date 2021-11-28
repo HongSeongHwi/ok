@@ -1,6 +1,6 @@
 C = g++
 CFLAGS = -O2 -lncurses -ltinfo -lstdc++
-TARGET = test.out
+TARGET = snake.out
 OBJS = input.o inoutro.o main.o snake.o snake_map.o ranking.o
 
 $(TARGET) : $(OBJS)
@@ -10,4 +10,4 @@ $(TARGET) : $(OBJS)
 		$(CC) $(CFLAGS) -c $<
 
 clean:
-		rm -f *.o test.out
+		rm -f *.o snake.out
