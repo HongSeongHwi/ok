@@ -176,7 +176,7 @@ int Outro::Select()
 void Intro::Render_Inoutro(int frame)
 {
     clear();
-    //printw("Render_INTRO\n");
+
     if(frame % 2 == 0)
     {
         for(int i = 0; i < INOUTRO_HEIGHT; i++)
@@ -217,7 +217,7 @@ void Intro::Render_Inoutro(int frame)
         }
         printw("\n");
     }
-    printw("frame = %d\n",frame);
+    //printw("frame = %d\n",frame);
     refresh();
 }
 

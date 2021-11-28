@@ -67,6 +67,7 @@ void Update()
             }
             else if(outro_sel == MENU_RANK)  Game_Status = GAME_RANK;
             else if(outro_sel == MENU_QUIT)  Game_Status = GAME_QUIT;
+            else                             Game_Status = GAME_OUTRO;
             break;
 
         case GAME_RANK:
@@ -89,7 +90,6 @@ void Render()
         
         case GAME_START:
             snake_map->Render_Map(frame);
-            //printw("frame = %d\n",frame);
             break;
 
         case GAME_OUTRO:
